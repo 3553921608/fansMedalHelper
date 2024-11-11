@@ -9,6 +9,8 @@ from loguru import logger
 
 # import requests
 from aiohttp import ClientSSLError, ClientSession, TCPConnector
+from ssl import SSLCertVerificationError
+
 # from requests.exceptions import SSLError
 
 from .exceptions import NoSuchNotifierError
@@ -66,25 +68,50 @@ class Provider(object):
 
     # @staticmethod
     async def request(self, method, url: str, **kwargs):
+        if self.proxy:
+            from aiohttp_socks import ProxyConnector
         # session = requests.Session()
-
-        session = ClientSession() if not self.proxy else ClientSession(connector=TCPConnector(verify_ssl=False))
-        response = None
+        # session = (
+        #     ClientSession() if not self.proxy else ClientSession(connector=TCPConnector(verify_ssl=False))
+        # )
+        # response = None
         try:
+            sessions = []
             if self.proxy:
-                response = await session.request(method, url.replace('https', 'http'), proxy=self.proxy, **kwargs)
+                connector = ProxyConnector.from_url(self.proxy)
+                session = ClientSession(connector=connector, trust_env = True)
+                sessions.append(session)
+                response = await session.request(method, url, **kwargs)
             else:
+                session = ClientSession(trust_env = True)
+                sessions.append(session)
                 response = await session.request(method, url, **kwargs)
             # log.debug('Response: {}'.format(response.text))
         except ClientSSLError as e:
             log.error(e)
-            session = ClientSession(connector=TCPConnector(verify_ssl=False))
+            if self.proxy:
+                connector = ProxyConnector.from_url(self.proxy, verify_ssl=False)
+            else:
+                connector = TCPConnector(verify_ssl=False)
+            session = ClientSession(connector=connector, trust_env = True)
+            sessions.append(session)
             response = await session.request(method, url.replace('https', 'http'), proxy=self.proxy, **kwargs)
+            # log.debug('Response: {}'.format(response.text))
+        except SSLCertVerificationError as e:
+            log.error(e)
+            if self.proxy:
+                connector = ProxyConnector.from_url(self.proxy, verify_ssl=False)
+            else:
+                connector = TCPConnector(verify_ssl=False)
+            session = ClientSession(connector=connector, trust_env = True)
+            sessions.append(session)
+            response = await session.request(method, url, proxy=self.proxy, **kwargs)
             # log.debug('Response: {}'.format(response.text))
         except Exception as e:
             log.error(e)
         finally:
-            await session.close()
+            for session in sessions:
+                await session.close()
             return response
 
     async def notify(self, **kwargs):

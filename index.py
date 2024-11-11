@@ -1,13 +1,17 @@
-import os
-import json
-import yaml
+from main import run
+
+
+# Tencent SCF
+def main_handler(event, context):
+    run()
+    return
+
+
+# Aliyun FC
+def handler(event, context):
+    run()
+    return
+
 
 if __name__ == '__main__':
-    users = os.environ.get('USERS')
-    os.system("git pull")
-    if users:
-        with open("users.yaml", "w") as fw:
-            yaml.dump(json.loads(users), fw)
-        with open("users.yaml", "r") as fr:
-            users = yaml.load(fr, Loader=yaml.FullLoader)
-    os.system("python main.py")
+    run()

@@ -5,7 +5,7 @@
 <h1> 新 B 站粉丝牌助手
 </h1>
 
-<p>当前版本：0.3.5</p>
+<p>当前版本：0.3.8</p>
 
  </div>
 
@@ -13,9 +13,8 @@
 
 -   [x] 每日直播区签到
 -   [x] 每日点赞 1 次直播间 （100 亲密度）
--   [x] 每日分享 1 次直播间 （100 亲密度）
--   [x] 每日弹幕打卡 
--   [x] 每日观看 65 分钟 （ 每5分钟100 共1300 亲密度）
+-   [x] 每日弹幕打卡（100 亲密度）
+-   [x] 每日观看 65 分钟 （ 每 5 分钟 100 共 1300 亲密度）
 -   [x] 每日应援团签到 (如果有的话) （10 亲密度）
 -   [x] 多账号支持
 -   [x] 微信推送通知
@@ -35,9 +34,7 @@
 
 ### 问题反馈
 
--   反馈交流群：979245756
 -   提 issue
--   B 站私信 [晓小轩 iAVA](https://space.bilibili.com/1772442517)  
     **提之前请明确问题主题和运行日志**
 
 ---
@@ -50,6 +47,19 @@
 
 ---
 
+### ~~本项目暂不接受任何 PR 如有问题或者新想法、功能可以通过 Issues 告诉我~~
+
+### 本人时间有限，暂时没有精力维护此项目，目前开放 pr，在保证脚本能用的情况下，欢迎开源社区的贡献
+
+## 历史 Star 数
+
+[![Stargazers over time](https://starchart.cc/XiaoMiku01/fansMedalHelper.svg)](https://starchart.cc/XiaoMiku01/fansMedalHelper)
+
 ### 赞助
 
 <img src="http://i0.hdslb.com/bfs/album/c267037c9513b8e44bc6ec95dbf772ff0439dce6.jpg" width="500" />
+
+### 鸣谢
+
+[<img src="https://s3.amazonaws.com/erxes/github/cloudflare.png" height="200"/>](https://www.cloudflare.com/)
+[<img src="https://user-images.githubusercontent.com/11474360/112592917-baa00600-8e41-11eb-9da4-ecb53bb3c2fa.png" width="200"/>](https://jb.gg/OpenSource)
